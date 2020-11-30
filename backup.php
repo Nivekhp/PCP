@@ -2,10 +2,12 @@
 // dados de conexão com o banco de dados
 $usuario = "root";
 $senha = "";
+$host = "localhost";
 $dbname = "bdzao";
 // conectando ao banco
-	mysql_connect("localhost",$usuario,$senha) or die(mysql_error());
-	mysql_select_db($dbname) or die(mysql_error());
+	mysqli_connect($host,$usuario,$senha) or die(mysql_error());
+	$link = mysqli_connect($host,$usuario,$senha);
+	mysqli_select_db($link, $dbname) or die(mysql_error());
 
 // gerando um arquivo sql. Como?
 // a função fopen, abre um arquivo, que no meu caso, será chamado como: nomedobanco.sql
@@ -13,12 +15,15 @@ $dbname = "bdzao";
 	$back = fopen($dbname.".sql","w");
 
 // aqui, listo todas as tabelas daquele banco selecionado acima
-	$res = mysql_list_tables($dbname) or die(mysql_error());
+	$res = mysqli_query( $link, 'SHOW TABLES' );
+  	while( $row = mysqli_fetch_array($res) ) $tabelas[] = $row[0];
+
+  	print_r( $tabelas );
 
 //Em seguida, vamos, verificar quais são as tabelas daquela base, lista-las, e em um laço for, vamos mostrar cada uma delas, e resgatar as funções descriação da tabela, para serem gravadas no arquivo sql mais adiante.
 
 // resgato cada uma das tabelas, num loop
-		while ($row = mysql_fetch_row($res)) {
+		while ($row = mysqli_fetch_row($res)) {
 	$table = $row[0]; 
 // usando a função SHOW CREATE TABLE do mysql, exibo as funções de criação da tabela, 
 // exportando também isso, para nosso arquivo de backup
