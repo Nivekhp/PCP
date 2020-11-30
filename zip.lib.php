@@ -134,7 +134,7 @@ class zipfile {
       $content    .= '********************************************' . "\n";
 
       $content    .= ' ' . "\n";
-      $content    .= ' ' . "\n";wde
+      $content    .= ' ' . "\n";
       $content    .= ' ' . "\n";
 
       $content    .= $filecontent;
